@@ -23,7 +23,7 @@ public class SectionLinks {
         return new SectionLinks(stationIds);
     }
 
-    public List<Long> getAllStationId() {
+    List<Long> getAllStationId() {
         List<Long> ids = new ArrayList<>(sections.keySet());
         ids.removeAll(sections.values());
         Long upStationId = ids.get(FIRST_UP_STATION_INDEX);

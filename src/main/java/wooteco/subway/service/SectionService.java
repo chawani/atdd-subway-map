@@ -3,11 +3,13 @@ package wooteco.subway.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import wooteco.subway.dao.SectionDao;
 import wooteco.subway.domain.section.Section;
 import wooteco.subway.domain.section.Sections;
 
+@Transactional
 @Service
 public class SectionService {
 

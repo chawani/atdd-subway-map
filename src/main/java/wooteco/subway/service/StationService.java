@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import wooteco.subway.dao.StationDao;
 import wooteco.subway.domain.Station;
 
+@Transactional
 @Service
 public class StationService {
 

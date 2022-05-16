@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import wooteco.subway.dao.LineDao;
 import wooteco.subway.dao.SectionDao;
@@ -14,6 +15,7 @@ import wooteco.subway.domain.Station;
 import wooteco.subway.domain.section.Section;
 import wooteco.subway.domain.section.Sections;
 
+@Transactional
 @Service
 public class LineService {
 
