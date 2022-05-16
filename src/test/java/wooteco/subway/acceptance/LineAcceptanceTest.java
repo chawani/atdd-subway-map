@@ -27,6 +27,8 @@ import wooteco.subway.dto.LineResponse;
 public class LineAcceptanceTest extends AcceptanceTest {
 
     private StationDao stationDao;
+    private Station station1;
+    private Station station2;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -34,6 +36,8 @@ public class LineAcceptanceTest extends AcceptanceTest {
     @BeforeEach
     void init() {
         stationDao = new StationDao(jdbcTemplate);
+        station1 = stationDao.save(new Station("강남역"));
+        station2 = stationDao.save(new Station("선릉역"));
     }
 
     ExtractableResponse<Response> givenLineRequest(Map<String, String> params) {
@@ -49,14 +53,11 @@ public class LineAcceptanceTest extends AcceptanceTest {
     @DisplayName("지하철 노선을 생성한다.")
     @Test
     void createLine() {
-        stationDao.save(new Station("강남역"));
-        stationDao.save(new Station("선릉역"));
-
         Map<String, String> params = new HashMap<>();
         params.put("name", "신분당선");
         params.put("color", "bg-red-600");
-        params.put("upStationId", "1");
-        params.put("downStationId", "2");
+        params.put("upStationId", station1.getId().toString());
+        params.put("downStationId", station2.getId().toString());
         params.put("distance", "10");
 
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -77,6 +78,9 @@ public class LineAcceptanceTest extends AcceptanceTest {
         Map<String, String> params = new HashMap<>();
         params.put("name", "신분당선");
         params.put("color", "bg-red-600");
+        params.put("upStationId", station1.getId().toString());
+        params.put("downStationId", station2.getId().toString());
+        params.put("distance", "10");
         givenLineRequest(params);
 
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -94,22 +98,19 @@ public class LineAcceptanceTest extends AcceptanceTest {
     @DisplayName("모든 지하철 노선들을 조회한다.")
     @Test
     void getStations() {
-        stationDao.save(new Station("강남역"));
-        stationDao.save(new Station("선릉역"));
-
         Map<String, String> params1 = new HashMap<>();
         params1.put("name", "신분당선");
         params1.put("color", "bg-red-600");
-        params1.put("upStationId", "1");
-        params1.put("downStationId", "2");
+        params1.put("upStationId", station1.getId().toString());
+        params1.put("downStationId", station2.getId().toString());
         params1.put("distance", "10");
         ExtractableResponse<Response> createResponse1 = givenLineRequest(params1);
 
         Map<String, String> params2 = new HashMap<>();
         params2.put("name", "분당선");
         params2.put("color", "bg-green-600");
-        params2.put("upStationId", "1");
-        params2.put("downStationId", "2");
+        params2.put("upStationId", station1.getId().toString());
+        params2.put("downStationId", station2.getId().toString());
         params2.put("distance", "10");
         ExtractableResponse<Response> createResponse2 = givenLineRequest(params2);
 
@@ -132,14 +133,11 @@ public class LineAcceptanceTest extends AcceptanceTest {
     @DisplayName("지하철 노선을 조회한다.")
     @Test
     void getStation() {
-        stationDao.save(new Station("강남역"));
-        stationDao.save(new Station("선릉역"));
-
         Map<String, String> params1 = new HashMap<>();
         params1.put("name", "신분당선");
         params1.put("color", "bg-red-600");
-        params1.put("upStationId", "1");
-        params1.put("downStationId", "2");
+        params1.put("upStationId", station1.getId().toString());
+        params1.put("downStationId", station2.getId().toString());
         params1.put("distance", "10");
         ExtractableResponse<Response> createResponse1 = givenLineRequest(params1);
 
@@ -158,11 +156,17 @@ public class LineAcceptanceTest extends AcceptanceTest {
         Map<String, String> params = new HashMap<>();
         params.put("name", "신분당선");
         params.put("color", "bg-red-600");
+        params.put("upStationId", station1.getId().toString());
+        params.put("downStationId", station2.getId().toString());
+        params.put("distance", "10");
         givenLineRequest(params);
 
         Map<String, String> params1 = new HashMap<>();
         params1.put("name", "구분당선");
         params1.put("color", "bg-red-600");
+        params1.put("upStationId", station1.getId().toString());
+        params1.put("downStationId", station2.getId().toString());
+        params1.put("distance", "10");
 
         ExtractableResponse<Response> updateResponse = RestAssured.given().log().all()
             .body(params1)
@@ -178,14 +182,11 @@ public class LineAcceptanceTest extends AcceptanceTest {
     @DisplayName("지하철 노선을 제거한다.")
     @Test
     void deleteLine() {
-        stationDao.save(new Station("강남역"));
-        stationDao.save(new Station("선릉역"));
-
         Map<String, String> params = new HashMap<>();
         params.put("name", "신분당선");
         params.put("color", "bg-red-600");
-        params.put("upStationId", "1");
-        params.put("downStationId", "2");
+        params.put("upStationId", station1.getId().toString());
+        params.put("downStationId", station2.getId().toString());
         params.put("distance", "10");
 
         ExtractableResponse<Response> createResponse = givenLineRequest(params);
